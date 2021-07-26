@@ -5,7 +5,7 @@ import { render } from 'react-dom';
 
 import App from './App';
 
-const GRAPHQL_API_URL = 'http://localhost:8080/graphql';
+const GRAPHQL_API_URL = 'https://stackdb.info/graphql';
 
 const client = new ApolloClient({
   clientState: {
