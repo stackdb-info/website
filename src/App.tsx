@@ -1,5 +1,6 @@
 import { gql } from 'apollo-boost';
 import * as React from 'react';
+import { useEffect } from 'react';
 import { Query } from 'react-apollo';
 
 import {
@@ -10,7 +11,10 @@ import {
   useParams
 } from "react-router-dom";
 
+declare const trends
+
 import Field from './Field';
+import GoogleTrends from './GoogleTrends';
 import { capitalize, plural, replaceDashes } from './tools';
 
 const TYPES_LIST = gql`
@@ -153,6 +157,13 @@ const TechnoPage = () => {
           )
         }}
       </Query>
+      <div id="widget">
+        <GoogleTrends
+          type="TIMESERIES"
+          keyword={techno}
+          url="https://ssl.gstatic.com/trends_nrtr/2051_RC11/embed_loader.js"
+        />
+      </div>
       <p>See any mistake ? <a href={`https://github.com/stackdb-info/db/blob/master/database/${type}/${techno.replaceAll(' ', '_').toLowerCase()}.yml`}>Edit source</a></p>
     </div >
   )
