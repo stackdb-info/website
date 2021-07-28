@@ -52,7 +52,7 @@ const BY_TYPES = (type, fields) => gql`
 `
 const INTRO_TYPE = type => gql`
   query {
-    __type(name: "${type}") {
+    __type(name: "${capitalize(type)}") {
        fields {
           name
           type {
