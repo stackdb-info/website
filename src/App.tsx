@@ -11,7 +11,7 @@ import {
 } from "react-router-dom";
 
 import Field from './Field';
-import { capitalize, plural } from './tools';
+import { capitalize, plural, replaceDashes } from './tools';
 
 const TYPES_LIST = gql`
   query {
@@ -68,6 +68,7 @@ const INTRO_TYPE = type => gql`
 `
 const TypePage = () => {
   let { type } = useParams();
+  type = decodeURIComponent(type)
   return (
     <div>
       <h1>{plural(capitalize(type))}</h1>
@@ -89,7 +90,7 @@ const TypePage = () => {
                 let liItems = items.map(i =>
                   <li key={i.name}>
                     <Link to={`/${encodeURIComponent(type)}/${encodeURIComponent(i.name)}`}>
-                      {i.name}
+                      {capitalize(i.name)}
                     </Link>
                   </li>
                 )
@@ -113,7 +114,9 @@ const GET = (type, fields, name) => gql`
   }
 `
 const TechnoPage = () => {
-  let { type, techno } = useParams();
+  let { type, techno } = useParams()
+  type = decodeURIComponent(type)
+  techno = decodeURIComponent(techno)
   return (
     <div>
       <h1>{capitalize(techno)}</h1>
@@ -141,7 +144,7 @@ const TechnoPage = () => {
                 console.log(items)
                 let liItems = Object.keys(items).filter(k => k != '__typename').map(key =>
                   <li key={key}>
-                    <b>{key} :</b> <Field fields={fields} name={key} val={items[key]} />
+                    <b>{capitalize(replaceDashes(key))} :</b> <Field fields={fields} name={key} val={items[key]} />
                   </li>
                 )
                 return <ul>{liItems}</ul>
