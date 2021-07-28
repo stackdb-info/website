@@ -10,6 +10,9 @@ import {
   useParams
 } from "react-router-dom";
 
+import Field from './Field';
+import { capitalize } from './tools';
+
 const TYPES_LIST = gql`
   query {
     queryTypesList {
@@ -67,7 +70,7 @@ const TypePage = () => {
   let { type } = useParams();
   return (
     <div>
-      <h1>{type}</h1>
+      <h1>{capitalize(type)}</h1>
       <Query query={INTRO_TYPE(type)}>
         {({ loading, error, data }) => {
           if (loading) return 'Loading...'
@@ -112,12 +115,12 @@ const TechnoPage = () => {
   let { type, techno } = useParams();
   return (
     <div>
-      <h1>{techno}</h1>
+      <h1>{capitalize(techno)}</h1>
       <Query query={INTRO_TYPE(type)}>
         {({ loading, error, data }) => {
           if (loading) return 'Loading...'
           if (error) return 'Unable to connect to GraphQL api : ' + error.message
-          const fields = data.__type.fields
+          const fields: any[] = data.__type.fields
           let parameters = fields
             .filter(f => !(f.name as string).endsWith('Aggregate'))
             .map(f => {
@@ -125,7 +128,6 @@ const TechnoPage = () => {
               if (!f.type.ofType || (f.type.ofType && f.type.ofType.name == 'String'))
                 return f.name
               return `${f.name} { name }`
-
             })
           return (
             <Query query={GET(type, parameters, techno)}>
@@ -133,14 +135,13 @@ const TechnoPage = () => {
                 if (loading) return 'Loading...'
                 if (error) return 'Unable to connect to GraphQL api : ' + error.message
                 const items = data["get" + type]
-                let liItems = Object.keys(items).map(key =>
+                console.log(items)
+                let liItems = Object.keys(items).filter(k => k != '__typename').map(key =>
                   <li key={key}>
-                    {key} : {JSON.stringify(items[key])}
+                    <b>{key} :</b> <Field fields={fields} name={key} val={items[key]} />
                   </li>
                 )
-                return (
-                  <ul>{liItems}</ul>
-                )
+                return <ul>{liItems}</ul>
               }}
             </Query>
           )
