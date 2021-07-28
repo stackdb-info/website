@@ -153,6 +153,7 @@ const TechnoPage = () => {
           )
         }}
       </Query>
+      <p>See any mistake ? <a href={`https://github.com/stackdb-info/db/blob/master/database/${type}/${techno.replaceAll(' ', '_').toLowerCase()}.yml`}>Edit source</a></p>
     </div >
   )
 }

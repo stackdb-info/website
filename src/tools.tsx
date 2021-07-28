@@ -6,6 +6,6 @@ export function plural(string: string) {
     if (string.endsWith('s')) return string
     return string + 's'
 }
-export function replaceDashes(string: string) {
-    return string.replace('_', ' ')
+export function replaceDashes(string) {
+    return string.replaceAll('_', ' ')
 }
