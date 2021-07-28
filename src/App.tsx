@@ -45,7 +45,7 @@ const TypesList = () => (
 
 const BY_TYPES = (type, fields) => gql`
   query {
-    query${type} {
+    query${capitalize(type)} {
       ${fields.join('\n')}
     }
   }
@@ -84,7 +84,7 @@ const TypePage = () => {
               {({ loading, error, data }) => {
                 if (loading) return 'Loading...'
                 if (error) return 'Unable to connect to GraphQL api : ' + error.message
-                const items = data["query" + type]
+                const items = data["query" + capitalize(type)]
                 let liItems = items.map(i =>
                   <li key={i.name}>
                     <Link to={`/${encodeURIComponent(type)}/${encodeURIComponent(i.name)}`}>
@@ -106,7 +106,7 @@ const TypePage = () => {
 
 const GET = (type, fields, name) => gql`
   query {
-    get${type}${name ? '(name: "' + name + '")' : ''} {
+    get${capitalize(type)}${name ? '(name: "' + name + '")' : ''} {
       ${fields.join('\n')}
     }
   }
@@ -134,7 +134,7 @@ const TechnoPage = () => {
               {({ loading, error, data }) => {
                 if (loading) return 'Loading...'
                 if (error) return 'Unable to connect to GraphQL api : ' + error.message
-                const items = data["get" + type]
+                const items = data["get" + capitalize(type)]
                 console.log(items)
                 let liItems = Object.keys(items).filter(k => k != '__typename').map(key =>
                   <li key={key}>
