@@ -1,6 +1,5 @@
 import { gql } from 'apollo-boost';
 import * as React from 'react';
-import { useEffect } from 'react';
 import { Query } from 'react-apollo';
 
 import {
@@ -14,8 +13,10 @@ import {
 declare const trends
 
 import Field from './Field';
-import GoogleTrends from './GoogleTrends';
+import GoogleTrends from './widgets/GoogleTrends';
 import { capitalize, plural, replaceDashes } from './tools';
+import { useEffect, useState } from 'react';
+import Github from './widgets/github/Github';
 
 const TYPES_LIST = gql`
   query {
@@ -119,8 +120,10 @@ const GET = (type, fields, name) => gql`
 `
 const TechnoPage = () => {
   let { type, techno } = useParams()
+  const [ghData, setGhData] = useState(0);
   type = decodeURIComponent(type)
   techno = decodeURIComponent(techno)
+
   return (
     <div>
       <h1>{capitalize(techno)}</h1>
@@ -151,13 +154,19 @@ const TechnoPage = () => {
                     <b>{capitalize(replaceDashes(key))} :</b> <Field fields={fields} name={key} val={items[key]} />
                   </li>
                 )
-                return <ul>{liItems}</ul>
+                return (
+                  <div>
+                    <Github items={items} />
+                    <ul>{liItems}</ul>
+                  </div>
+                )
               }}
             </Query>
           )
         }}
       </Query>
       <div id="widget">
+
         <GoogleTrends
           type="TIMESERIES"
           keyword={techno}
