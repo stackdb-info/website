@@ -7,13 +7,10 @@ export default function Organization(params) {
     const [maxRateExceed, setMaxRateExceed] = useState(false)
 
     useEffect(() => {
-        async function onLoad() {
-            await fetch(`https://api.github.com/orgs/${params.organization}`)
-                .then(res => res.json())
-                .then(setOrgDetails)
-                .catch(() => setMaxRateExceed(true))
-        }
-        onLoad();
+        fetch(`https://api.github.com/orgs/${params.organization}`)
+            .then(res => res.json())
+            .then(setOrgDetails)
+            .catch(() => setMaxRateExceed(true))
     }, [])
 
     return (

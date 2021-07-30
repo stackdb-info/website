@@ -7,13 +7,10 @@ export default function Repository(params) {
     const [maxRateExceed, setMaxRateExceed] = useState(false)
 
     useEffect(() => {
-        async function onLoad() {
-            await fetch(`https://api.github.com/repos/${params.repository}`)
-                .then(res => res.json())
-                .then(setRepoDetails)
-                .catch(() => setMaxRateExceed(true))
-        }
-        onLoad();
+        fetch(`https://api.github.com/repos/${params.repository}`)
+            .then(res => res.json())
+            .then(setRepoDetails)
+            .catch(() => setMaxRateExceed(true))
     }, [])
 
     return (
