@@ -7,5 +7,8 @@ export function plural(string: string) {
     return string + 's'
 }
 export function replaceDashes(string) {
-    return string.replaceAll('_', ' ')
+    return string.replace('enum_', '').replaceAll('_', ' ')
+}
+export function wellFormated(string) {
+    return capitalize(replaceDashes(string))
 }

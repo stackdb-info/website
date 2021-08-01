@@ -14,7 +14,7 @@ declare const trends
 
 import Field from './Field';
 import GoogleTrends from './widgets/GoogleTrends';
-import { capitalize, plural, replaceDashes } from './tools';
+import { capitalize, plural, replaceDashes, wellFormated } from './tools';
 import { useEffect, useState } from 'react';
 import Github from './widgets/github/Github';
 
@@ -84,7 +84,7 @@ const TypePage = () => {
           if (error) return 'Unable to connect to GraphQL api : ' + error.message
           const fields = data.__type.fields
           let parameters = fields
-            .filter(f => ["icon", "description"].includes(f.name) || f.type.ofType && f.type.ofType.name == 'String')
+            .filter(f => ["name", "icon", "description"].includes(f.name) || f.name.includes("enum_"))
             .map(f => f.name)
           return (
             <Query query={BY_TYPES(type, parameters)}>
@@ -92,15 +92,27 @@ const TypePage = () => {
                 if (loading) return 'Loading...'
                 if (error) return 'Unable to connect to GraphQL api : ' + error.message
                 const items = data["query" + capitalize(type)]
-                let liItems = items.map(i =>
-                  <li key={i.name}>
-                    <Link to={`/${encodeURIComponent(type)}/${encodeURIComponent(i.name)}`}>
-                      {i.icon && <img width="50" src={i.icon}></img>}
-                      <b>{capitalize(i.name)}</b>
+                // Highlight enum fields in <ul><li>
+                let enumFields = parameters.filter(k => k.includes("enum_"))
+                let liItems = items.map(i => {
+                  let enumsAsLis = enumFields.map(ef => {
+                    let enumVal = Array.isArray(i[ef]) ? i[ef].join(', ') : i[ef] // can be a list of enums or single enum
+                    return <li><b>{wellFormated(ef)} : </b>{enumVal}</li>
+                  })
+                  return (
+                    <li key={i.name}>
+                      <Link to={`/${encodeURIComponent(type)}/${encodeURIComponent(i.name)}`}>
+                        {i.icon && <img width="50" src={i.icon}></img>}
+                        <b>{capitalize(i.name)}</b>
+                      </Link>
                       {i.description && <p>{i.description}</p>}
-                    </Link>
-                  </li>
-                )
+                      <ul>
+                        {enumsAsLis}
+                      </ul>
+
+                    </li>
+                  )
+                })
                 return (
                   <ul>{liItems}</ul>
                 )
@@ -155,7 +167,7 @@ const TechnoPage = () => {
                   .filter(k => k != '__typename' && items[k] != undefined && !k.includes('github'))
                   .map(key =>
                     <li key={key}>
-                      <b>{capitalize(replaceDashes(key))} :</b> <Field fields={fields} name={key} val={items[key]} />
+                      <b>{wellFormated(key)} :</b> <Field fields={fields} name={key} val={items[key]} />
                     </li>
                   )
                 return (
