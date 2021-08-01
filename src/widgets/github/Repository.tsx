@@ -15,7 +15,7 @@ export default function Repository(params) {
 
     return (
         <div>
-            <h2>Github Repository</h2>
+            <h3>Github Repository</h3>
             {maxRateExceed
                 ? <p>Maximum Github request rate exceeded (60 per minute)</p>
                 :

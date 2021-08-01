@@ -15,7 +15,7 @@ export default function Organization(params) {
 
     return (
         <div>
-            <h2>Github Organization</h2>
+            <h3>Github Organization</h3>
             {maxRateExceed
                 ? <p>Maximum Github request rate exceeded (60 per minute)</p>
                 :
