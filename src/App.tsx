@@ -159,6 +159,7 @@ const TechnoPage = () => {
                 return (
                   <div>
                     <ul>{liItems}</ul>
+                    { type=='dbms' && <a href={`https://dbdb.io/db/${techno}`} target="_blank">View on dbdb.io</a> }
                     <Github items={items} />
                   </div>
                 )
