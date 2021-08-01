@@ -149,15 +149,17 @@ const TechnoPage = () => {
                 if (error) return 'Unable to connect to GraphQL api : ' + error.message
                 const items = data["get" + capitalize(type)]
                 console.log(items)
-                let liItems = Object.keys(items).filter(k => k != '__typename').map(key =>
+                let liItems = Object.keys(items)
+                  .filter(k => k != '__typename' && items[k]!=undefined && !k.includes('github'))
+                  .map(key =>
                   <li key={key}>
                     <b>{capitalize(replaceDashes(key))} :</b> <Field fields={fields} name={key} val={items[key]} />
                   </li>
                 )
                 return (
                   <div>
-                    <Github items={items} />
                     <ul>{liItems}</ul>
+                    <Github items={items} />
                   </div>
                 )
               }}
