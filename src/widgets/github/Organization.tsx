@@ -20,7 +20,16 @@ export default function Organization(params) {
                 ? <p>Maximum Github request rate exceeded (60 per minute)</p>
                 :
                 orgDetails
-                    ? <p>{JSON.stringify(orgDetails)}</p>
+                    ? <>
+                        <img width="100" src={orgDetails.avatar_url}></img>
+                        <ul>
+                            { orgDetails.description && <li><b>Description : </b> {orgDetails.description}</li>}
+                            { orgDetails.public_repos && <li><b>Public repos : </b> {orgDetails.public_repos}</li>}
+                            { orgDetails.location && <li><b>Location : </b> {orgDetails.location}</li>}
+                            { orgDetails.email && <li><b>E-mail : </b> <a href="mailto:{orgDetails.email}">{orgDetails.email}</a></li>}
+                            { orgDetails.blog && <li><b>Blog : </b> <a href="{orgDetails.blog}">{orgDetails.blog}</a></li>}
+                        </ul>
+                    </>
                     : <p>Loading Github data...</p>
             }
         </div >
