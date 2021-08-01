@@ -84,7 +84,7 @@ const TypePage = () => {
           if (error) return 'Unable to connect to GraphQL api : ' + error.message
           const fields = data.__type.fields
           let parameters = fields
-            .filter(f => f.type.ofType && f.type.ofType.name == 'String')
+            .filter(f => ["icon", "description"].includes(f.name) || f.type.ofType && f.type.ofType.name == 'String')
             .map(f => f.name)
           return (
             <Query query={BY_TYPES(type, parameters)}>
@@ -95,7 +95,9 @@ const TypePage = () => {
                 let liItems = items.map(i =>
                   <li key={i.name}>
                     <Link to={`/${encodeURIComponent(type)}/${encodeURIComponent(i.name)}`}>
-                      {capitalize(i.name)}
+                      {i.icon && <img width="50" src={i.icon}></img>}
+                      <b>{capitalize(i.name)}</b>
+                      {i.description && <p>{i.description}</p>}
                     </Link>
                   </li>
                 )
@@ -134,11 +136,11 @@ const TechnoPage = () => {
           if (loading) return 'Loading...'
           if (error) return 'Unable to connect to GraphQL api : ' + error.message
           const fields: any[] = data.__type.fields
+          // Isolate interesting fields and map to graphql request
           let parameters = fields
             .filter(f => !(f.name as string).endsWith('Aggregate'))
             .map(f => {
-              // TODO : refactor for cleaner and more explicit condition
-              if (!f.type.ofType || (f.type.ofType && f.type.ofType.name == 'String'))
+              if (f.name.includes('enum') || !f.type.ofType || (f.type.ofType && f.type.ofType.name == 'String'))
                 return f.name
               return `${f.name} { name }`
             })
@@ -150,16 +152,16 @@ const TechnoPage = () => {
                 const items = data["get" + capitalize(type)]
                 console.log(items)
                 let liItems = Object.keys(items)
-                  .filter(k => k != '__typename' && items[k]!=undefined && !k.includes('github'))
+                  .filter(k => k != '__typename' && items[k] != undefined && !k.includes('github'))
                   .map(key =>
-                  <li key={key}>
-                    <b>{capitalize(replaceDashes(key))} :</b> <Field fields={fields} name={key} val={items[key]} />
-                  </li>
-                )
+                    <li key={key}>
+                      <b>{capitalize(replaceDashes(key))} :</b> <Field fields={fields} name={key} val={items[key]} />
+                    </li>
+                  )
                 return (
                   <div>
                     <ul>{liItems}</ul>
-                    { type=='dbms' && <a href={`https://dbdb.io/db/${techno}`} target="_blank">View on dbdb.io</a> }
+                    {type == 'dbms' && <a href={`https://dbdb.io/db/${techno}`} target="_blank">View on dbdb.io</a>}
                     <Github items={items} />
                   </div>
                 )
