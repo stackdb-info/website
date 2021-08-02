@@ -8,12 +8,12 @@ export default function GoogleTrends({ type, keyword, url }) {
             document.getElementById("widget"),
             type,
             {
-                comparisonItem: [{ keyword, time: "today 12-m" }],
+                comparisonItem: [{ keyword, time: "today 5-y" }],
                 category: 0,
                 property: ""
             },
             {
-                exploreQuery: `q=${encodeURI(keyword)}&geo=US&date=today 12-m`,
+                exploreQuery: `q=${encodeURI(keyword)}&date=today 5-y`,
                 guestPath: "https://trends.google.com:443/trends/embed/"
             }
         );
