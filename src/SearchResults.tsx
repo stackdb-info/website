@@ -4,7 +4,7 @@ import {
     Link,
 } from "react-router-dom";
 
-export const SearchResults = ({ type, parameters, items, matchedNames }) => {
+export const SearchResults = ({ type, parameters, items, matchedNames, searchTime }) => {
     // Highlight enum fields in <ul><li>
     let enumFields = parameters.filter(k => k.includes("enum_"))
     let liItems = items
@@ -27,7 +27,11 @@ export const SearchResults = ({ type, parameters, items, matchedNames }) => {
                 </li>
             )
         })
-    return liItems.length > 0
-        ? <ul>{liItems}</ul>
-        : <p>No results found, try to remove some terms.</p>
+    return <>
+        <p>{liItems.length} results {searchTime != -1 && <span>in {parseFloat(searchTime).toFixed(1)} miliseconds</span>}</p>
+        {liItems.length > 0
+            ? <ul>{liItems}</ul>
+            : <p>No results found, try to remove some terms.</p>
+        }
+    </>
 }
