@@ -152,7 +152,7 @@ const TechnoPage = () => {
           let parameters = fields
             .filter(f => !(f.name as string).endsWith('Aggregate'))
             .map(f => {
-              if (f.name.includes('enum') || !f.type.ofType || (f.type.ofType && f.type.ofType.name == 'String'))
+              if (f.name.includes('enum') || (!f.type.ofType && f.type.kind != 'OBJECT') || (f.type.ofType && f.type.ofType.name == 'String'))
                 return f.name
               return `${f.name} { name }`
             })
