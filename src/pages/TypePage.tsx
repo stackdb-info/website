@@ -13,9 +13,11 @@ export const TypePage = () => {
     let { type } = useParams();
     type = decodeURIComponent(type)
     return (
-        <div>
+        <section>
             <h1>{plural(capitalize(type))}</h1>
-            <Link to={`/`}>Show all categories</Link>
+            <div className="navigation">
+                <Link to={`/`}>&#11013; Show all categories</Link>
+            </div>
             <Query query={INTRO_TYPE(type)}>
                 {({ loading, error, data }) => {
                     if (loading) return 'Loading...'
@@ -40,6 +42,6 @@ export const TypePage = () => {
                     </>
                 }}
             </Query>
-        </div >
+        </section >
     )
 }

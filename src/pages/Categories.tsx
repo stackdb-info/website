@@ -6,7 +6,7 @@ import { plural, capitalize } from "../tools";
 import { Link } from "react-router-dom";
 
 export const Categories = () => (
-    <div>
+    <section>
         <h1>Categories</h1>
         <Query query={TYPES_LIST}>
             {({ loading, error, data }) => {
@@ -25,5 +25,5 @@ export const Categories = () => (
                 );
             }}
         </Query>
-    </div>
+    </section>
 );
