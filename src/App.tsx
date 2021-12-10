@@ -9,6 +9,7 @@ import {
 import { TypePage } from './pages/TypePage';
 import { Categories } from './pages/Categories';
 import { TechnoPage } from './pages/TechnoPage';
+import { LandingPage } from './pages/LandingPage';
 
 const App = () => {
   return (
@@ -22,7 +23,8 @@ const App = () => {
             <TypePage />
           </Route>
           <Route path="/">
-            <Categories />
+            <LandingPage />
+            {/* <Categories /> */}
           </Route>
         </Switch>
       </div>

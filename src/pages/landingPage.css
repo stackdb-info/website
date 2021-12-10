@@ -1,0 +1,43 @@
+@import url('http://fonts.cdnfonts.com/css/kestoy-selfie');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+header {
+  padding-top: 30px;
+  text-align: center;
+}
+
+.bigTitle {
+  font-size: 9em;
+  background: rgb(255,185,114);
+  background: linear-gradient(90deg, rgb(190, 86, 150) 0%, rgb(245, 85, 45) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: 'Kestoy Selfie';
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.extension {
+  color: rgb(197, 103, 48);
+  font-family: sans-serif;
+  font-size: 2em;
+}
+
+.subtitle {
+  color: rgb(166, 77, 124);
+  font-family: sans-serif;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.75em;
+}
+
+.search {
+  margin-top: 50px;
+  border: none;
+  max-width: 500px;
+  padding: 20px;
+  width: 100vw;
+  height: 3em;
+  border-radius: 15px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.3em;
+}
